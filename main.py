@@ -56,14 +56,13 @@ def scan(x: int, y: int, data: list, x_max: int, y_max: int) -> list:
     return data
 
 
-def calculate(photo: str) -> int:
+def calculate(data: list) -> int:
     """
     Подсчет кол-ва кратеров.
 
-    :param photo: Имя файла с фото
+    :param data: Снимок луны
     :return: Кол-во кратеров
     """
-    data = open_file(photo)
     line_max = len(data)
     colum_max = len(data[0])
     count = 0
@@ -76,4 +75,4 @@ def calculate(photo: str) -> int:
     return count
 
 
-print(calculate('photo.txt'))
+print(calculate(open_file('photo.txt')))
