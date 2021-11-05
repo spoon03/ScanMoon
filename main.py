@@ -1,4 +1,6 @@
 """Поиск кратеров на луне."""
+from exception import TypeDataError, ElError, EmptyError, NoRectangleError
+from decorators import validator
 
 
 def open_file(name: str) -> list:
@@ -56,6 +58,7 @@ def scan(x: int, y: int, data: list, x_max: int, y_max: int) -> list:
     return data
 
 
+@validator
 def calculate(data: list) -> int:
     """
     Подсчет кол-ва кратеров.
@@ -63,9 +66,29 @@ def calculate(data: list) -> int:
     :param data: Снимок луны
     :return: Кол-во кратеров
     """
-    line_max = len(data)
-    colum_max = len(data[0])
     count = 0
+    if type(data) == list:
+        line_max = len(data)
+        if data != [[]]:
+            for x in data:
+                if type(x) == list:
+                    colum_max = len(data[0])
+                    if len(x) == colum_max:
+                        for y in x:
+                            if y == '0' or y == '1':
+                                pass
+                            else:
+                                raise ElError('ОГО', [str(data)])
+                    else:
+                        raise NoRectangleError('ИГОГО', [str(data)])
+                else:
+                    raise TypeDataError('ОЙОЙ', [str(data)])
+
+        else:
+            raise EmptyError('АЙ', [str(data)])
+    else:
+        raise TypeDataError('ОЙ', [str(data)])
+
     for x in range(line_max):
         for y in range(colum_max):
             el = data[x][y]
